@@ -1,114 +1,66 @@
-# YouTube Kapak Fotoğrafları Web Scraping Projesi
+# YouTube Video Kapak Resmi Sınıflandırma Projesi
 
-## Proje Hakkında
+## Proje Özeti
+Bu proje, YouTube video kapak resimlerinin sınıflandırılmasını amaçlamaktadır. İçeriğinde beş farklı transformatör modeli (ViT, DeiT, BEiT, Swin, ConvNext) kullanılmış, performansları karşılaştırılmış ve çıkarımlar yapılmıştır. Projenin önemli adımları; web kazıma, veri işleme, veri arttırımı ve model eğitimidir. Projede toplamda beş kategori için 25.000 görsel kullanılmıştır.
 
-Bu proje, YouTube arama sonuçlarından video kapak fotoğraflarını otomatik olarak toplamak ve yerel bir klasöre indirmek için geliştirilmiştir. Python programlama dili ile yazılmıştır ve Selenium ile BeautifulSoup kütüphaneleri kullanılmıştır. Proje, belirli bir arama sorgusuyla eşleşen sonuçlardan kapak fotoğraflarını toplayarak veri analizi veya görsel sınıflandırma gibi işlemlerde kullanılabilecek bir veri seti oluşturmayı hedefler.
+## Geliştirme Ortamı
+- **Kodlama Dili:** Python
+- **Kütüphaneler:** PyTorch, Transformers, Selenium, Torchvision, Matplotlib, Seaborn
+- **Geliştirme Platformu:** Google Colab
+- **Donanım:** NVIDIA GPU destekli ortam
 
-## Özellikler
+## Projenin Kurulumu
+1. **Gerekli Kütüphanelerin Yüklenmesi:**
+    ```bash
+    pip install torch torchvision transformers
+    ```
+2. **Veri Setinin Hazırlanması:**
+   - YouTube'dan veri toplamak için Selenium ile kazıma kodları çalıştırılır.
+   - Veriler `zip` formatında saklanır ve çözülerek kullanılır.
+3. **Kodların Yüklenmesi ve Çalıştırılması:**
+   - Model eğitimi ve test kodları her model için ayrıca çalıştırılır.
+   - Performans metrikleri hesaplanır ve görselleştirilir.
+4. **Sonuçların Kaydedilmesi:**
+   - Eğitilen modeller Google Drive'a kaydedilir.
 
-- YouTube üzerinde bir arama sorgusu çalıştırır.
-- Sayfayı otomatik olarak kaydırarak daha fazla içerik yükler.
-- Kapak fotoğraflarını (thumbnails) tespit eder ve toplar.
-- Klasörde tekrarlanan dosya adlarını önler.
-- Maksimum indirme sınırı belirlenebilir.
+## Kullanım
+1. Proje kodlarını Colab ortamına aktarın.
+2. Gerekli veri setini `train` ve `test` klasörlerine ayırın.
+3. Belirtilen adımları sırayla takip ederek modelleri eğitin.
+4. Performans metriklerini inceleyerek çıkarımları yapın.
 
-## Gereksinimler
+## Arayüz Örneği
+Proje, terminal tabanlı bir çıktı arayüzüne sahiptir. Çıktılar, görselleştirilen karmaşıklık matrisi, ROC eğrileri ve eğitim/doğrulama kayıp grafiklerinden oluşuyor.
 
-Projeyi çalıştırmadan önce aşağıdaki yazılım ve kütüphanelerin kurulu olduğundan emin olun:
+## Proje Detayları
+### Web Kazıma
+- YouTube üzerinden Selenium ile veri toplama
+- Beş farklı kategori: **Eğitim, Spor, Oyun, Belgesel, Yemek**
 
-- **Python 3.x**
-- Python kütüphaneleri:
-  - `selenium`
-  - `webdriver-manager`
-  - `beautifulsoup4`
-  - `requests`
+### Veri İşleme
+- Veri ayıklama ve temizleme
+- Veri arttırımı: Döndürme, parlaklık artıştırma, renk doygunluğu ekleme, gürültü ekleme
+- Boyut normalizasyonu: 224x224
 
-Kurulum için gerekli kütüphaneleri şu komutla yükleyebilirsiniz:
+### Modeller
+1. **ViT (Vision Transformer)**
+2. **DeiT (Data-efficient Image Transformer)**
+3. **BEiT (BERT Pre-trained Vision Transformer)**
+4. **Swin Transformer**
+5. **ConvNext**
 
-```bash
-pip install selenium webdriver-manager beautifulsoup4 requests
+### Performans Analizleri
+- **Metikler:** Accuracy, Precision, Recall, F1-Score, Specificity, AUC, Inference Time
+- **Grafikler:** Karmaşıklık Matrisi, ROC Eğrisi, Eğitim/Doğrulama Kayıp Grafiği
+- **Sonuçlar:** Swin modeli, genel performans ve hız açısından en iyi sonucu vermiştir.
 
-markdown
-Kodu kopyala
-# YouTube Kapak Fotoğrafları Web Scraping Projesi
+---
 
-## Proje Hakkında
-
-Bu proje, YouTube arama sonuçlarından video kapak fotoğraflarını otomatik olarak toplamak ve yerel bir klasöre indirmek için geliştirilmiştir. Python programlama dili ile yazılmıştır ve Selenium ile BeautifulSoup kütüphaneleri kullanılmıştır. Proje, belirli bir arama sorgusuyla eşleşen sonuçlardan kapak fotoğraflarını toplayarak veri analizi veya görsel sınıflandırma gibi işlemlerde kullanılabilecek bir veri seti oluşturmayı hedefler.
-
-## Özellikler
-
-- YouTube üzerinde bir arama sorgusu çalıştırır.
-- Sayfayı otomatik olarak kaydırarak daha fazla içerik yükler.
-- Kapak fotoğraflarını (thumbnails) tespit eder ve toplar.
-- Klasörde tekrarlanan dosya adlarını önler.
-- Maksimum indirme sınırı belirlenebilir.
-
-## Gereksinimler
-
-Projeyi çalıştırmadan önce aşağıdaki yazılım ve kütüphanelerin kurulu olduğundan emin olun:
-
-- **Python 3.x**
-- Python kütüphaneleri:
-  - `selenium`
-  - `webdriver-manager`
-  - `beautifulsoup4`
-  - `requests`
-
-Kurulum için gerekli kütüphaneleri şu komutla yükleyebilirsiniz:
+Projeyi yüklemek ve çalıştırmak için detaylı bilgiler için geliştiricilere ulaşabilirsiniz:
+- Yusuf Can Demirkol: josephacn86@gmail.com
+- Muhammed Abdullah Acar: acar167257@gmail.com
 
 
-pip install selenium webdriver-manager beautifulsoup4 requests
-Ayrıca, chromedriver için Google Chrome yüklü olmalıdır.
-
-Çalışma Prensibi
-YouTube'da Arama Yapma: Kod, belirlenen bir arama sorgusunu çalıştırarak ilgili sonuçları getirir.
-Otomatik Kaydırma: Sayfayı aşağı kaydırarak daha fazla içerik yüklenmesini sağlar.
-Kapak Fotoğrafı Toplama: HTML yapısından kapak fotoğraflarını tespit eder.
-Filtreleme: Shorts videoları ve geçersiz bağlantılar filtrelenir.
-Görselleri Kaydetme: Elde edilen kapak fotoğrafları, yerel bir klasöre benzersiz adlarla kaydedilir.
-Kullanım Talimatları
-1. Kodun Ayarlanması
-Arama sorgusunu değiştirmek için kodda şu satırı düzenleyin:
-python
-Kodu kopyala
-url = "https://www.youtube.com/results?search_query=online+write+education"
-Burada online+write+education kısmını istediğiniz arama terimleriyle değiştirebilirsiniz.
-
-2. Scripti Çalıştırma
-Projeyi çalıştırmak için terminalde şu komutu kullanabilirsiniz:
-
-bash
-Kodu kopyala
-python scraper.py
-3. Çıkış Verileri
-Kapak fotoğrafları youtube_thumbnails adında bir klasöre .jpg formatında kaydedilecektir. Dosya adları şu formatta olacaktır:
-
-php
-Kodu kopyala
-thumbnail_<sıra_numarası>.jpg
-Teknik Detaylar
-Kaydırma Mekanizması: Kod, sayfanın aşağı kaydırılması için JavaScript kullanır. Sayfa yüklenmesi tamamlandığında kapak fotoğrafları toplanır.
-Görsel Filtreleme: Shorts videoları ve geçersiz bağlantılar filtrelenir. Bu, img etiketinin class ve src özellikleri kontrol edilerek yapılır.
-İndirme Sınırı: Maksimum indirme sınırı maks_indirilecek değişkeni ile belirlenebilir.
-Performans Optimizasyonu: Daha önce kaydedilen dosyalar tekrar indirilmeyerek gereksiz işlem önlenir.
-Hata Giderme
-Selenium ile Tarayıcı Sorunları:
-
-Eğer tarayıcı başlatılamıyorsa, chromedriver sürümünüzü kontrol edin ve gerekirse güncelleyin:
-bash
-Kodu kopyala
-pip install --upgrade webdriver-manager
-Zaman Aşımı Sorunları:
-
-Büyük sayfalarda içerik yüklenmesi zaman alabilir. scroll_pause_time değişkenini artırmayı deneyebilirsiniz.
-Daha Fazla İçerik Yüklenemiyor:
-
-Sayfanın sonuna ulaşıldığında daha fazla kapak fotoğrafı yüklenemez. Bu durumda min_required_images veya max_scrolls değişkenlerini artırabilirsiniz.
-Katkıda Bulunma
-Eğer projeyi geliştirmek isterseniz, bir pull request gönderebilir veya bir issue açabilirsiniz. Her türlü geri bildirim değerlidir.
-
-```bash
 
 
 
